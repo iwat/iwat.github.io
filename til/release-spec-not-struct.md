@@ -1,0 +1,5 @@
+## DO NOT release structs/classes for customers to serialize/deserialze, DO release wire protocol spec (or serializer/deserializer)
+
+My team inherited one old service from another team. Thing worked fine until we got a campaign toT migrate away from Jackson 1.9 to 2.x. One of the artifacts that needed to be upgraded contained @JsonXXX annotations that only worked with Jackson 1.9, the annotation was upgraded to 2.x and later found that the service were unable to decode the payload properly because the service was still running on Jackson 1.9 and it did not understand Jackson 2.x annotations. The thing was eventually rolled back. Later, I made another attempt by introducing a major version upgrade of everything and asking customers to voluntarily upgrade.
+
+Instead of doing all these, it would be much easier to release wire protocol spec like JSON schema, OpenAPI/Swagger, Smithy, or GRPC. Serialization and deserialization should be done precisely. If an artifact release is required, make sure that serializer/deserializer is also shipped and do not allow direct serialization/deserialization by customers.
